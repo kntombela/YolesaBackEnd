@@ -64,7 +64,7 @@ namespace YolesaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != member.MemberID)
+            if (id != member.Id)
             {
                 return BadRequest();
             }
@@ -102,7 +102,7 @@ namespace YolesaBackend.Controllers
             _context.Member.Add(member);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.MemberID }, member);
+            return CreatedAtAction("GetMember", new { id = member.Id }, member);
         }
 
         // DELETE: api/Members/5
@@ -128,7 +128,7 @@ namespace YolesaBackend.Controllers
 
         private bool MemberExists(int id)
         {
-            return _context.Member.Any(e => e.MemberID == id);
+            return _context.Member.Any(e => e.Id == id);
         }
 
         private async Task<List<Member>> GetMembersByGroupId(int groupId)

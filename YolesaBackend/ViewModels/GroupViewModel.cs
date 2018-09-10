@@ -7,7 +7,7 @@ namespace YolesaBackend.ViewModels
 {
     public class GroupViewModel
     {
-        public int GroupID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

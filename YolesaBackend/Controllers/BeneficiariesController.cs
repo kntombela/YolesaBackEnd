@@ -55,7 +55,7 @@ namespace YolesaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != beneficiary.BeneficiaryID)
+            if (id != beneficiary.Id)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace YolesaBackend.Controllers
             _context.Beneficiary.Add(beneficiary);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBeneficiary", new { id = beneficiary.BeneficiaryID }, beneficiary);
+            return CreatedAtAction("GetBeneficiary", new { id = beneficiary.Id }, beneficiary);
         }
 
         // DELETE: api/Beneficiaries/5
@@ -116,10 +116,10 @@ namespace YolesaBackend.Controllers
 
             return Ok(beneficiary);
         }
-
+            
         private bool BeneficiaryExists(int id)
         {
-            return _context.Beneficiary.Any(e => e.BeneficiaryID == id);
+            return _context.Beneficiary.Any(e => e.Id == id);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace YolesaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != lead.LeadID)
+            if (id != lead.Id)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace YolesaBackend.Controllers
             _context.Lead.Add(lead);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLead", new { id = lead.LeadID }, lead);
+            return CreatedAtAction("GetLead", new { id = lead.Id }, lead);
         }
 
         // DELETE: api/Leads/delete
@@ -121,7 +121,7 @@ namespace YolesaBackend.Controllers
 
         private bool LeadExists(int id)
         {
-            return _context.Lead.Any(e => e.LeadID == id);
+            return _context.Lead.Any(e => e.Id == id);
         }
     }
 }

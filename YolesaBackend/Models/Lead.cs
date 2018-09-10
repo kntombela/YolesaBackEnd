@@ -14,7 +14,7 @@ namespace YolesaBackend.Models
 
     public class Lead
     {
-        public int LeadID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

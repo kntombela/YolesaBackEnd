@@ -22,7 +22,7 @@ namespace YolesaBackend.Models
 {
     public class Group
     {
-        public int GroupID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

@@ -46,6 +46,26 @@ namespace YolesaBackend.Controllers
             return Ok(groupUser);
         }
 
+        // GET: api/users/jkjkiosd-jkdjkjsdsd-jkjksjdksd/group
+        [HttpGet]
+        [Route("~/api/users/{userId}/group")]
+        public async Task<IActionResult> GetGroupByUser([FromRoute] string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var groupUser = await GetGroupByUserId(userId);
+
+            if (!GroupUserExists(groupUser))
+            {
+                return NotFound();
+            }
+
+            return Ok(groupUser);
+        }
+
         // PUT: api/GroupUsers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGroupUser([FromRoute] int id, [FromBody] GroupUser groupUser)
@@ -55,7 +75,7 @@ namespace YolesaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != groupUser.GroupUserID)
+            if (id != groupUser.Id)
             {
                 return BadRequest();
             }
@@ -93,7 +113,7 @@ namespace YolesaBackend.Controllers
             _context.GroupUser.Add(groupUser);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroupUser", new { id = groupUser.GroupUserID }, groupUser);
+            return CreatedAtAction("GetGroupUser", new { id = groupUser.Id }, groupUser);
         }
 
         // DELETE: api/GroupUsers/5
@@ -119,7 +139,14 @@ namespace YolesaBackend.Controllers
 
         private bool GroupUserExists(int id)
         {
-            return _context.GroupUser.Any(e => e.GroupUserID == id);
+            return _context.GroupUser.Any(e => e.Id == id);
+        }
+
+        private async Task<int> GetGroupByUserId(string userId)
+        {
+            return await (from gu in _context.GroupUser
+                         where gu.UserID == userId
+                         select gu.GroupID).FirstOrDefaultAsync();
         }
     }
 }

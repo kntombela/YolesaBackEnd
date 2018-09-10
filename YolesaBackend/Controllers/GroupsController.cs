@@ -57,7 +57,7 @@ namespace YolesaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != @group.GroupID)
+            if (id != @group.Id)
             {
                 return BadRequest();
             }
@@ -95,7 +95,7 @@ namespace YolesaBackend.Controllers
             _context.Group.Add(@group);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroup", new { id = @group.GroupID }, @group);
+            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
         }
 
         // DELETE: api/Groups/5
@@ -121,16 +121,16 @@ namespace YolesaBackend.Controllers
 
         private bool GroupExists(int id)
         {
-            return _context.Group.Any(e => e.GroupID == id);
+            return _context.Group.Any(e => e.Id == id);
         }
 
         private IEnumerable<GroupViewModel> GetGroupsViewModel()
         {
             //return (from g in _context.Group
-            //        join m in _context.Member on g.GroupID equals m.GroupID
+            //        join m in _context.Member on g.Id equals m.GroupID
             //        group m by new
             //        {
-            //            g.GroupID,
+            //            g.Id,
             //            g.Name,
             //            g.Industry,
             //            g.Type,
@@ -140,7 +140,7 @@ namespace YolesaBackend.Controllers
             //        } into x
             //        select new GroupViewModel
             //        {
-            //            GroupID = x.Key.GroupID,
+            //            Id = x.Key.Id,
             //            Name = x.Key.Name,
             //            Industry = x.Key.Industry,
             //            Type = x.Key.Type,
@@ -152,13 +152,13 @@ namespace YolesaBackend.Controllers
             return _context.Group.Select(
                 g => new GroupViewModel
                 {
-                    GroupID = g.GroupID,
+                    Id = g.Id,
                     Name = g.Name,
                     Industry = g.Industry,
                     Type = g.Type,
                     PolicyNumber = g.PolicyNumber,
                     DateModified = g.DateModified,
-                    MemberCount = _context.Member.Count(m => m.GroupID == g.GroupID)
+                    MemberCount = _context.Member.Count(m => m.Id == g.Id)
                 }).ToList();
 
         }

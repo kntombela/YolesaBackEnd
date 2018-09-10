@@ -7,7 +7,7 @@ namespace YolesaBackend.Models
 {
     public class Beneficiary
     {
-        public int BeneficiaryID { get; set; }
+        public int Id { get; set; }
 
         public Title Title { get; set; }
 

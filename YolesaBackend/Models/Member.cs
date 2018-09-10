@@ -26,7 +26,7 @@ namespace YolesaBackend.Models
 
     public class Member
     {
-        public int MemberID { get; set; }
+        public int Id { get; set; }
 
         public Title Title { get; set; }
 

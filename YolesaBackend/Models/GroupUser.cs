@@ -8,7 +8,7 @@ namespace YolesaBackend.Models
 {
     public class GroupUser
     {
-        public int GroupUserID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string UserID { get; set; }
