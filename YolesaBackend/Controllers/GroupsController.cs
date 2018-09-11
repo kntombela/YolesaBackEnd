@@ -26,7 +26,7 @@ namespace YolesaBackend.Controllers
         public IEnumerable<GroupViewModel> GetGroup()
         {
             //return _context.Group;
-            return GetGroupsViewModel();
+            return GetGroupList();
         }
 
         // GET: api/Groups/5
@@ -39,6 +39,25 @@ namespace YolesaBackend.Controllers
             }
 
             var @group = await _context.Group.FindAsync(id);
+
+            if (@group == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(@group);
+        }
+
+        // GET: api/groupUsers/898239-239khkjhskdhsd-khkshd/groups
+        [HttpGet("~/api/groupUsers/{userId}/groups")]
+        public async Task<IActionResult> GetGroupByUser([FromRoute] string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var @group = await getGroupByUserId(userId);
 
             if (@group == null)
             {
@@ -124,7 +143,7 @@ namespace YolesaBackend.Controllers
             return _context.Group.Any(e => e.Id == id);
         }
 
-        private IEnumerable<GroupViewModel> GetGroupsViewModel()
+        private IEnumerable<GroupViewModel> GetGroupList()
         {
             //return (from g in _context.Group
             //        join m in _context.Member on g.Id equals m.GroupID
@@ -161,6 +180,23 @@ namespace YolesaBackend.Controllers
                     MemberCount = _context.Member.Count(m => m.Id == g.Id)
                 }).ToList();
 
+        }
+
+        private async Task<GroupViewModel> getGroupByUserId(string userId)
+        {
+            return await (from gu in _context.GroupUser
+                          join g in _context.Group on gu.GroupID equals g.Id
+                          where gu.UserID == userId
+                          select new GroupViewModel
+                          {
+                              Id = g.Id,
+                              Name = g.Name,
+                              Industry = g.Industry,
+                              PolicyNumber = g.PolicyNumber,
+                              Type = g.Type,
+                              DateModified = g.DateModified,
+                              MemberCount = _context.Member.Count(m => m.GroupID == g.Id)
+                          }).FirstOrDefaultAsync();
         }
     }
 }
