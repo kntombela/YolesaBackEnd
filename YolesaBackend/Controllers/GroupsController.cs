@@ -117,25 +117,22 @@ namespace YolesaBackend.Controllers
             return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
         }
 
-        // DELETE: api/Groups/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup([FromRoute] int id)
+        // DELETE: api/Group/delete
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteGroup(int[] ids)
         {
-            if (!ModelState.IsValid)
+            foreach (int i in ids)
             {
-                return BadRequest(ModelState);
+                var @group = await _context.Group.FindAsync(i);
+                if (@group == null)
+                {
+                    return NotFound();
+                }
+                _context.Group.Remove(@group);
             }
-
-            var @group = await _context.Group.FindAsync(id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            _context.Group.Remove(@group);
             await _context.SaveChangesAsync();
 
-            return Ok(@group);
+            return Ok();
         }
 
         private bool GroupExists(int id)

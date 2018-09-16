@@ -100,11 +100,6 @@ namespace YolesaBackend.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteLead(int[] ids)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             foreach (int i in ids)
             {
                 var lead = await _context.Lead.FindAsync(i);

@@ -96,27 +96,24 @@ namespace YolesaBackend.Controllers
             return CreatedAtAction("GetBeneficiary", new { id = beneficiary.Id }, beneficiary);
         }
 
-        // DELETE: api/Beneficiaries/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBeneficiary([FromRoute] int id)
+        // DELETE: api/Beneficiaries/delete
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteBeneficiary(int[] ids)
         {
-            if (!ModelState.IsValid)
+            foreach (int i in ids)
             {
-                return BadRequest(ModelState);
+                var beneficiary = await _context.Beneficiary.FindAsync(i);
+                if (beneficiary == null)
+                {
+                    return NotFound();
+                }
+                _context.Beneficiary.Remove(beneficiary);
             }
-
-            var beneficiary = await _context.Beneficiary.FindAsync(id);
-            if (beneficiary == null)
-            {
-                return NotFound();
-            }
-
-            _context.Beneficiary.Remove(beneficiary);
             await _context.SaveChangesAsync();
 
-            return Ok(beneficiary);
+            return Ok();
         }
-            
+
         private bool BeneficiaryExists(int id)
         {
             return _context.Beneficiary.Any(e => e.Id == id);
