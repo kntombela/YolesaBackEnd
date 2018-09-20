@@ -23,5 +23,7 @@ namespace YolesaBackend.Models
         public DbSet<Beneficiary> Beneficiary { get; set; }
 
         public DbSet<YolesaBackend.Models.GroupUser> GroupUser { get; set; }
+
+        public DbSet<YolesaBackend.Models.Address> Address { get; set; }
     }
 }

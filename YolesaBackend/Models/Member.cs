@@ -81,6 +81,8 @@ namespace YolesaBackend.Models
 
         public ICollection<Beneficiary> Beneficiaries { get; set; }
 
+        public ICollection<Address> Addresses { get; set; }
+
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public DateTime DateModified { get; set; } = DateTime.Now;
