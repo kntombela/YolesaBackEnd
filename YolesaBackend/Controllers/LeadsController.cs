@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using YolesaBackend.Models;
 namespace YolesaBackend.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize("read:messages")]
+    //[Authorize]
     [ApiController]
     public class LeadsController : ControllerBase
     {
@@ -97,8 +100,8 @@ namespace YolesaBackend.Controllers
         }
 
         // DELETE: api/Leads/delete
-        [HttpPost("delete")]
-        public async Task<IActionResult> DeleteLead(int[] ids)
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteLead([FromBody] int[] ids)
         {
             foreach (int i in ids)
             {
